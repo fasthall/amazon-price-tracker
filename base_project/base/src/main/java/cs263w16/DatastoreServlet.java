@@ -38,9 +38,8 @@ public class DatastoreServlet extends HttpServlet {
             }
             resp.getWriter().println("<br><b>Memcache:</b><br>");
             for (String k : keynames) {
-                String cached = (String) syncCache.get(k);
-                if (cached != null) {
-                    resp.getWriter().println(k + ": " + cached + "<br>");
+                if (syncCache.get(k) != null) {
+                    resp.getWriter().println(k + ": " + syncCache.get(k).toString() + "<br>");
                 }
             }
         } else if (argsCnt == 1 && keyname != null) {
