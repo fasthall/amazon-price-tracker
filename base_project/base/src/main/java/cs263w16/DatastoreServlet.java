@@ -39,7 +39,8 @@ public class DatastoreServlet extends HttpServlet {
             resp.getWriter().println("<br><b>Memcache:</b><br>");
             for (String k : keynames) {
                 if (syncCache.get(k) != null) {
-                    resp.getWriter().println(k + ": " + syncCache.get(k).toString() + "<br>");
+                    Entity entity = (Entity) syncCache.get(k);
+                    resp.getWriter().println(k + ": " + entity.getProperty("value") + "<br>");
                 }
             }
         } else if (argsCnt == 1 && keyname != null) {
@@ -63,7 +64,7 @@ public class DatastoreServlet extends HttpServlet {
             entity.setProperty("date", new Date());
             entity.setProperty("value", value);
             datastore.put(entity);
-            syncCache.put(keyname, value);
+            syncCache.put(keyname, entity);
             // print Stored KEY and VALUE in Datastore
             resp.getWriter().println("Stored " + keyname + " and " + value + " in Datastore<br>");
             resp.getWriter().println("Stored " + keyname + " and " + value + " in Memcache<br>");

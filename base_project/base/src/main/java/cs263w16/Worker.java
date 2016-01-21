@@ -10,15 +10,15 @@ import com.google.appengine.api.memcache.*;
 public class Worker extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String key = request.getParameter("keyname");
-		String value = request.getParameter("value");
+        String value = request.getParameter("value");
 
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 
-		Entity entity = new Entity("TaskData", key);
-		entity.setProperty("value", value);
-		entity.setProperty("date", new Date());
-		datastore.put(entity);
-		syncCache.put(key, value);
+        Entity entity = new Entity("TaskData", key);
+        entity.setProperty("value", value);
+        entity.setProperty("date", new Date());
+        datastore.put(entity);
+        syncCache.put(key, entity);
     }
 }
