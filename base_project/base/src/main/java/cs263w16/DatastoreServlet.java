@@ -9,6 +9,7 @@ import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.datastore.Query.*;
 import com.google.appengine.api.memcache.*;
 
+
 @SuppressWarnings("serial")
 public class DatastoreServlet extends HttpServlet {
 
@@ -74,4 +75,5 @@ public class DatastoreServlet extends HttpServlet {
 
         resp.getWriter().println("</body></html>");
     }
+	
 }

@@ -77,7 +77,13 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
-
+        <!-- Obj Dependecies -->
+		
+		<dependency>
+    <groupId>com.googlecode.objectify</groupId>
+    <artifactId>objectify</artifactId>
+    <version>4.0.1</version>
+    </dependency>
         <!-- Test Dependencies -->
         <dependency>
             <groupId>com.google.appengine</groupId>
