@@ -12,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
 import java.util.logging.*;
+
 import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.datastore.Query.*;
 import com.google.appengine.api.memcache.*;
@@ -75,19 +76,18 @@ public class Wishlist {
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public void newWishlistProduct(@FormParam("productID") String productID,
-			@FormParam("productName") String productName,
-			@Context HttpServletResponse servletResponse) throws IOException {
-		System.out.println("Getting current price of " + productID + "("
-				+ productName + ")");
-		double price = (double) 199.99;
+			@Context HttpServletResponse servletResponse) throws Exception {
+		System.out.println("Getting current price of " + productID);
+		JavaCodeSnippet jcs = new JavaCodeSnippet();
+		WishlistProduct product = jcs.search(productID);
 
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 		Entity entity = new Entity("WishlistProduct", productID);
-		entity.setProperty("productName", productName);
-		entity.setProperty("currentPrice", price);
-		entity.setProperty("lowestPrice", price);
+		entity.setProperty("productName", product.getProductName());
+		entity.setProperty("currentPrice", product.getCurrentPrice());
+		entity.setProperty("lowestPrice", product.getLowestPrice());
 		entity.setProperty("lowestDate", new Date());
 		datastore.put(entity);
 		syncCache.put(productID, entity);

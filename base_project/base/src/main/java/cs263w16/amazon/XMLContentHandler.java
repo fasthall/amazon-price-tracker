@@ -34,12 +34,16 @@ public class XMLContentHandler implements ContentHandler {
 
 	public void startElement(String uri, String localName, String qName,
 			Attributes atts) throws SAXException {
-		if (qName.equals("LowestNewPrice")) {
+		if (currentTag.equals("LowestNewPrice")) {
+			if (qName.equals("FormattedPrice")) {
+				currentTag = "FormattedPrice";
+			}
+		} else if (qName.equals("LowestNewPrice")) {
 			currentTag = "LowestNewPrice";
-		}
-		if (currentTag.equals("LowestNewPrice")
-				&& qName.equals("FormattedPrice")) {
-			currentTag = "FormattedPrice";
+		} else if (qName.equals("Title")) {
+			currentTag = "Title";
+		} else {
+			currentTag = "";
 		}
 	}
 
@@ -50,10 +54,14 @@ public class XMLContentHandler implements ContentHandler {
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 		if (currentTag.equals("FormattedPrice")) {
-			System.out.println(new String(ch, start + 1, length - 1));
-			wishlistProduct.setCurrentPrice(Double.parseDouble(new String(ch,
-					start + 1, length - 1)));
+			double price = Double.parseDouble(new String(ch, start + 1,
+					length - 1));
+			wishlistProduct.setCurrentPrice(price);
+			wishlistProduct.setLowestPrice(price);
 			currentTag = "";
+		}
+		if (currentTag.equals("Title")) {
+			wishlistProduct.setProductName(new String(ch, start, length));
 		}
 	}
 

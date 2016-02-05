@@ -52,31 +52,7 @@ public class JavaCodeSnippet {
 		XMLReader xmlReader = XMLReaderFactory.createXMLReader();
 		xmlReader.setContentHandler(new XMLContentHandler(wishlistProduct));
 		xmlReader.parse(new InputSource(new URL(url).openStream()));
-		/*
-		 * if (resEntityGet != null) { String result =
-		 * EntityUtils.toString(resEntityGet);
-		 * 
-		 * DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		 * DocumentBuilder db = dbf.newDocumentBuilder(); InputSource is = new
-		 * InputSource(); is.setCharacterStream(new StringReader(result));
-		 * Document doc = db.parse(is); NodeList nodes =
-		 * doc.getElementsByTagName("Item");
-		 * 
-		 * if (nodes.getLength() < 1) { return null; } else {
-		 * wishlistProduct.setProductID(productID); Element element = (Element)
-		 * nodes.item(0); NodeList title =
-		 * element.getElementsByTagName("Title");
-		 * wishlistProduct.setProductName(((Element)
-		 * title.item(0)).getTextContent()); NodeList lowestNewPrice =
-		 * element.getElementsByTagName("LowestNewPrice"); if
-		 * (lowestNewPrice.getLength() == 0) {
-		 * wishlistProduct.setCurrentPrice(0f); } NodeList amount = ((Element)
-		 * lowestNewPrice.item(0)).getElementsByTagName("Amount"); if
-		 * (amount.getLength() == 0) { wishlistProduct.setCurrentPrice(0f); }
-		 * else {
-		 * product.setPrice(Float.parseFloat(amount.item(0).getTextContent()));
-		 * } } EntityUtils.consume(resEntityGet); }
-		 */
+
 		return wishlistProduct;
 	}
 }

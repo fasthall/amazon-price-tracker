@@ -52,7 +52,7 @@ public class WishlistProduct {
 		return lowestPrice;
 	}
 
-	public void setLowestPricee(double lowestPrice) {
+	public void setLowestPrice(double lowestPrice) {
 		this.lowestPrice = lowestPrice;
 	}
 
