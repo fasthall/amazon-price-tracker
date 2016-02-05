@@ -4,18 +4,31 @@
  */
 package cs263w16;
 
-import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import javax.servlet.http.*;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
+import javax.ws.rs.core.UriInfo;
 
-import java.util.logging.*;
-
-import com.google.appengine.api.datastore.*;
-import com.google.appengine.api.datastore.Query.*;
-import com.google.appengine.api.memcache.*;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
 import cs263w16.amazon.JavaCodeSnippet;
 
@@ -26,6 +39,9 @@ public class Wishlist {
 	@Context
 	Request request;
 
+	/*
+	 * List all the entities in XML
+	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	public List<WishlistProduct> getEntitiesBrowser() {
@@ -49,6 +65,9 @@ public class Wishlist {
 		return list;
 	}
 
+	/*
+	 * List all the entities in XML
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public List<WishlistProduct> getEntities() {
@@ -72,6 +91,9 @@ public class Wishlist {
 		return list;
 	}
 
+	/*
+	 * Post a new product with given product ID
+	 */
 	@POST
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -93,16 +115,12 @@ public class Wishlist {
 		syncCache.put(productID, entity);
 	}
 
+	/*
+	 * Get a certain product by ID
+	 */
 	@Path("{productID}")
 	public WishlistProductResource getEntity(
 			@PathParam("productID") String productID) {
-		System.out.println("GET " + productID);
-		JavaCodeSnippet jcs = new JavaCodeSnippet();
-		try {
-			jcs.search(productID);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		return new WishlistProductResource(uriInfo, request, productID);
 	}
 }
