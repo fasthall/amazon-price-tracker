@@ -43,8 +43,11 @@
       <url-pattern>/sign</url-pattern>
     </servlet-mapping>
 
-    <welcome-file-list>
+    <!-- <welcome-file-list>
         <welcome-file>guestbook.jsp</welcome-file>
+    </welcome-file-list> -->
+	<welcome-file-list>
+        <welcome-file>home.html</welcome-file>
     </welcome-file-list>
 
     <filter>
