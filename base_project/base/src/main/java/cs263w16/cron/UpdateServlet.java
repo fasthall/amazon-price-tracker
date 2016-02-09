@@ -3,7 +3,7 @@
  * @Date 02/04/2016
  * @Description Update all prices in datastore
  */
-package cs263w16;
+package cs263w16.cron;
 
 import java.io.IOException;
 import java.util.Date;
@@ -22,6 +22,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
+import cs263w16.WishlistProduct;
 import cs263w16.amazon.JavaCodeSnippet;
 
 @SuppressWarnings("serial")
@@ -29,8 +30,8 @@ public class UpdateServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		// System.out.println((new Date()).toString() + "Cron job triggered.");
-		resp.setContentType("text/html");
-		resp.getWriter().println("<html><body>");
+//		resp.setContentType("text/html");
+//		resp.getWriter().println("<html><body>");
 
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -44,9 +45,9 @@ public class UpdateServlet extends HttpServlet {
 		// List all entities
 		for (Entity entity : results) {
 			String productID = entity.getKey().getName();
-			resp.getWriter().println(
-					"<b>" + productID + ":</b>	"
-							+ entity.getProperty("productName") + "<br>");
+//			resp.getWriter().println(
+//					"<b>" + productID + ":</b>	"
+//							+ entity.getProperty("productName") + "<br>");
 			// Check if the current price is lower
 			try {
 				WishlistProduct wishlistProduct = jcs.search(productID);
@@ -61,6 +62,6 @@ public class UpdateServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		resp.getWriter().println("</body></html>");
+//		resp.getWriter().println("</body></html>");
 	}
 }
