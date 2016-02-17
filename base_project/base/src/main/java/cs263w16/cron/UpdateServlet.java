@@ -22,6 +22,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
+import cs263w16.MailService;
 import cs263w16.WishlistProduct;
 import cs263w16.amazon.JavaCodeSnippet;
 
@@ -29,9 +30,7 @@ import cs263w16.amazon.JavaCodeSnippet;
 public class UpdateServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		// System.out.println((new Date()).toString() + "Cron job triggered.");
-//		resp.setContentType("text/html");
-//		resp.getWriter().println("<html><body>");
+		System.out.println("Cron job triggered. " + (new Date()).toString());
 
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -45,16 +44,25 @@ public class UpdateServlet extends HttpServlet {
 		// List all entities
 		for (Entity entity : results) {
 			String productID = entity.getKey().getName();
-//			resp.getWriter().println(
-//					"<b>" + productID + ":</b>	"
-//							+ entity.getProperty("productName") + "<br>");
-			// Check if the current price is lower
+			System.out.println("Checking " + productID);
+			// Update the price and check if the current price is lower
 			try {
 				WishlistProduct wishlistProduct = jcs.search(productID);
 				double price = wishlistProduct.getCurrentPrice();
-				if (price < (double) entity.getProperty("lowestPrice")) {
-					entity.setProperty("lowestPrice", price);
-					entity.setProperty("lowestDate", new Date());
+				System.out.println("Last price: "
+						+ (double) entity.getProperty("currentPrice"));
+				if (price != (double) entity.getProperty("currentPrice")) {
+					entity.setProperty("currentPrice", price);
+					System.out.println("Current price: " + price);
+					if (price < (double) entity.getProperty("lowestPrice")) {
+						entity.setProperty("lowestPrice", price);
+						entity.setProperty("lowestDate", new Date());
+						MailService mail = new MailService(
+								"fasthall@gmail.com",
+								productID + " is cheaper",
+								"http://www.amazon.com/dp/" + productID);
+						mail.send();
+					}
 					datastore.put(entity);
 					syncCache.put(productID, entity);
 				}
@@ -62,6 +70,5 @@ public class UpdateServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-//		resp.getWriter().println("</body></html>");
 	}
 }

@@ -18,11 +18,13 @@ import javax.mail.internet.MimeMessage;
 
 public class MailService {
 	private String recipient;
-	private String subject;;
+	private String subject;
 	private String body;
 
-	public MailService() {
-
+	public MailService(String recipient, String subject, String body) {
+		this.recipient = recipient;
+		this.subject = subject;
+		this.body = body;
 	}
 
 	public void send() {
