@@ -44,7 +44,8 @@ public class UpdateServlet extends HttpServlet {
 		// List all entities
 		for (Entity entity : results) {
 			String productID = entity.getKey().getName();
-			System.out.println("Checking " + productID);
+			String productName = (String) entity.getProperty("productName");
+			System.out.println("Checking " + productID + ": " + productName);
 			// Update the price and check if the current price is lower
 			try {
 				WishlistProduct wishlistProduct = jcs.search(productID);
@@ -58,9 +59,7 @@ public class UpdateServlet extends HttpServlet {
 						entity.setProperty("lowestPrice", price);
 						entity.setProperty("lowestDate", new Date());
 						MailService mail = new MailService(
-								"fasthall@gmail.com",
-								productID + " is cheaper",
-								"http://www.amazon.com/dp/" + productID);
+								"fasthall@gmail.com", productName, productID);
 						mail.send();
 					}
 					datastore.put(entity);

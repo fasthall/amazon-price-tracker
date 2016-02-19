@@ -32,10 +32,7 @@ public class MailServlet extends HttpServlet {
 		resp.setContentType("text/html");
 		resp.getWriter().println("<html><body>");
 
-		MailService mailService = new MailService();
-		mailService.setRecipient(recipient);
-		mailService.setSubject(subject);
-		mailService.setBody(body);
+		MailService mailService = new MailService(recipient, subject, body);
 		mailService.send();
 
 		resp.getWriter().println("Sent a mail to: " + recipient + "<br>");

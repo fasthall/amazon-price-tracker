@@ -24,7 +24,9 @@ public class MailService {
 	public MailService(String recipient, String subject, String body) {
 		this.recipient = recipient;
 		this.subject = subject;
-		this.body = body;
+		this.body = "The product " + subject
+				+ " in your wishlist is on sale!<br>"
+				+ "http://www.amazon.com/dp/" + body;
 	}
 
 	public void send() {

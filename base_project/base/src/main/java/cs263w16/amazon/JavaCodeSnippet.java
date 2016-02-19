@@ -46,6 +46,7 @@ public class JavaCodeSnippet {
 	public WishlistProduct search(String productID) throws Exception {
 		params.put("ItemId", productID);
 		String url = helper.sign(params);
+		System.out.println(url);
 		WishlistProduct wishlistProduct = new WishlistProduct();
 
 		XMLReader xmlReader = XMLReaderFactory.createXMLReader();
