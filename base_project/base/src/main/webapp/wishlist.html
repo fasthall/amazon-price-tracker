@@ -44,7 +44,8 @@
 
   <body>
 
-    <div class="container">
+	
+	<div class="container">
 
       <form class="form-signin" action="/rest/wishlist" method="post">
 	 
@@ -52,6 +53,17 @@
         <label for="productID" class="sr-only">productID</label>
         <input name="productID" id="productID" class="form-control" required autofocus>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+      </form>
+      
+    </div> <!-- /container -->
+	<div class="container">
+
+      <form class="form-signin" action="/rest/wishlist" method="delete">
+	 
+        <h2 class="form-signin-heading">ProductID</h2>
+        <label for="productID" class="sr-only">productID</label>
+        <input name="productID" id="productID" class="form-control" required autofocus>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Delete</button>
       </form>
       
     </div> <!-- /container -->

@@ -113,8 +113,11 @@ public class Wishlist {
 		entity.setProperty("lowestDate", new Date());
 		datastore.put(entity);
 		syncCache.put(productID, entity);
+		
 	}
-
+    // delete
+	
+	
 	/*
 	 * Get a certain product by ID
 	 */
