@@ -16,6 +16,6 @@ public class Enqueue extends HttpServlet {
         Queue queue = QueueFactory.getDefaultQueue();
         queue.add(TaskOptions.Builder.withUrl("/rest/ds").param("keyname", key).param("value", value));
 
-        response.sendRedirect("/home.html");
+        response.sendRedirect("/wishlist.html");
     }
 }
