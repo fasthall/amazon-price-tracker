@@ -54,8 +54,13 @@ public class XMLContentHandler implements ContentHandler {
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 		if (currentTag.equals("FormattedPrice")) {
-			double price = Double.parseDouble(new String(ch, start + 1,
-					length - 1));
+			double price;
+			try {
+				price = Double
+						.parseDouble(new String(ch, start + 1, length - 1));
+			} catch (NumberFormatException e) {
+				price = 0;
+			}
 			wishlistProduct.setCurrentPrice(price);
 			wishlistProduct.setLowestPrice(price);
 			currentTag = "";
