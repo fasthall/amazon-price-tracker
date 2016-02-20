@@ -55,7 +55,9 @@ public class UpdateServlet extends HttpServlet {
 				if (price != (double) entity.getProperty("currentPrice")) {
 					entity.setProperty("currentPrice", price);
 					System.out.println("Current price: " + price);
-					if (price < (double) entity.getProperty("lowestPrice")) {
+					if (price > 0
+							&& price < (double) entity
+									.getProperty("lowestPrice")) {
 						entity.setProperty("lowestPrice", price);
 						entity.setProperty("lowestDate", new Date());
 						MailService mail = new MailService(

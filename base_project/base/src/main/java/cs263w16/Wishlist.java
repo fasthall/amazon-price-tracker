@@ -113,6 +113,8 @@ public class Wishlist {
 		entity.setProperty("lowestDate", new Date());
 		datastore.put(entity);
 		syncCache.put(productID, entity);
+		servletResponse.getWriter().println(productID + " has been added.");
+		servletResponse.flushBuffer();
 	}
 
 	/*
