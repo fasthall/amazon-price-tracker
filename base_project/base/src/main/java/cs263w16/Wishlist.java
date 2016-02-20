@@ -115,8 +115,12 @@ public class Wishlist {
 		syncCache.put(productID, entity);
 		servletResponse.getWriter().println(productID + " has been added.");
 		servletResponse.flushBuffer();
-	}
 
+
+	}
+    // delete
+	
+	
 	/*
 	 * Get a certain product by ID
 	 */
