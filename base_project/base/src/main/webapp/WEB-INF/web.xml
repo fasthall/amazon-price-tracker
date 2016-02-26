@@ -3,41 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-	<servlet>
-		<servlet-name>datastore</servlet-name>
-		<servlet-class>cs263w16.DatastoreServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>datastore</servlet-name>
-		<url-pattern>/datastore</url-pattern>
-	</servlet-mapping>
-
-	<!-- guestbookservlet -->
-
-	<servlet>
-		<servlet-name>guestbook</servlet-name>
-		<servlet-class>cs263w16.GuestbookServlet</servlet-class>
-	</servlet>
-
-	<servlet>
-		<servlet-name>sign</servlet-name>
-		<servlet-class>cs263w16.SignGuestbookServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>sign</servlet-name>
-		<url-pattern>/sign</url-pattern>
-	</servlet-mapping>
-
-	<!-- <welcome-file-list> <welcome-file>guestbook.jsp</welcome-file> </welcome-file-list> -->
-
 	<welcome-file-list>
 		<welcome-file>home.jsp</welcome-file>
 	</welcome-file-list>
-
-		<!-- -->
-
 
 	<servlet>
 		<servlet-name>enqueue</servlet-name>
@@ -55,6 +23,15 @@
 	<servlet-mapping>
 		<servlet-name>worker</servlet-name>
 		<url-pattern>/worker</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>delete</servlet-name>
+		<servlet-class>cs263w16.DeleteWishlistProduct</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>delete</servlet-name>
+		<url-pattern>/delete</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -91,7 +68,7 @@
 	</servlet-mapping>
 
 	<security-constraint>
-	<web-resource-collection>
+		<web-resource-collection>
 			<web-resource-name>mail</web-resource-name>
 			<url-pattern>/mail</url-pattern>
 		</web-resource-collection>

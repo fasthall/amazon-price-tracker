@@ -8,6 +8,9 @@ import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
+
 import cs263w16.WishlistProduct;
 
 /*
@@ -19,8 +22,9 @@ import cs263w16.WishlistProduct;
  */
 public class JavaCodeSnippet {
 
-	private static final String AWS_ACCESS_KEY_ID = "AKIAJHL7REQ4PUFZTZFQ";
-	private static final String AWS_SECRET_KEY = "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";
+	private static final String AWS_ACCESS_KEY_ID = "";
+	private static final String AWS_SECRET_KEY = "";
+	private static final String AWS_ASSOCIATE_TAG = "";
 	private static final String ENDPOINT = "webservices.amazon.com";
 
 	private SignedRequestsHelper helper;
@@ -30,8 +34,8 @@ public class JavaCodeSnippet {
 		params = new HashMap<String, String>();
 		params.put("Service", "AWSECommerceService");
 		params.put("Operation", "ItemLookup");
-		params.put("AWSAccessKeyId", "AKIAJHL7REQ4PUFZTZFQ");
-		params.put("AssociateTag", "fasthall-20");
+		params.put("AWSAccessKeyId", AWS_ACCESS_KEY_ID);
+		params.put("AssociateTag", AWS_ASSOCIATE_TAG);
 		params.put("IdType", "ASIN");
 		params.put("ResponseGroup", "Images,ItemAttributes,Offers");
 		try {
@@ -54,5 +58,10 @@ public class JavaCodeSnippet {
 		xmlReader.parse(new InputSource(new URL(url).openStream()));
 
 		return wishlistProduct;
+	}
+
+	public double getCachedPrice(String productID) {
+		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+		return (double) syncCache.get(productID);
 	}
 }

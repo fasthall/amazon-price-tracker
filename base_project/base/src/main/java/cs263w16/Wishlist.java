@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,10 +26,15 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 import cs263w16.amazon.JavaCodeSnippet;
 
@@ -45,10 +51,16 @@ public class Wishlist {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	public List<WishlistProduct> getEntitiesBrowser() {
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+		if (user == null) {
+			return null;
+		}
+
 		List<WishlistProduct> list = new ArrayList<WishlistProduct>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query query = new Query("WishlistProduct");
+		Query query = new Query(user.getEmail());
 		query.addSort(Entity.KEY_RESERVED_PROPERTY, SortDirection.ASCENDING);
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withDefaults());
@@ -71,10 +83,16 @@ public class Wishlist {
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public List<WishlistProduct> getEntities() {
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+		if (user == null) {
+			return null;
+		}
+
 		List<WishlistProduct> list = new ArrayList<WishlistProduct>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query query = new Query("WishlistProduct");
+		Query query = new Query(user.getEmail());
 		query.addSort(Entity.KEY_RESERVED_PROPERTY, SortDirection.ASCENDING);
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withDefaults());
@@ -99,6 +117,13 @@ public class Wishlist {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public void newWishlistProduct(@FormParam("productID") String productID,
 			@Context HttpServletResponse servletResponse) throws Exception {
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+		if (user == null) {
+			System.out.println("Login first");
+			return;
+		}
+
 		System.out.println("Getting current price of " + productID);
 		JavaCodeSnippet jcs = new JavaCodeSnippet();
 		WishlistProduct product = jcs.search(productID);
@@ -106,21 +131,47 @@ public class Wishlist {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
-		Entity entity = new Entity("WishlistProduct", productID);
+		Entity entity = new Entity(user.getEmail(), productID);
 		entity.setProperty("productName", product.getProductName());
 		entity.setProperty("currentPrice", product.getCurrentPrice());
 		entity.setProperty("lowestPrice", product.getLowestPrice());
 		entity.setProperty("lowestDate", new Date());
 		datastore.put(entity);
-		syncCache.put(productID, entity);
+		syncCache.put(productID, product.getCurrentPrice());
 		servletResponse.getWriter().println(productID + " has been added.");
 		servletResponse.flushBuffer();
-
-
 	}
-    // delete
-	
-	
+
+	/*
+	 * Delete a new product with given product ID
+	 */
+	@DELETE
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public void deleteWishlistProduct(@FormParam("productID") String productID,
+			@Context HttpServletResponse servletResponse) throws Exception {
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+		if (user == null) {
+			System.out.println("Login first");
+			return;
+		}
+
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		// MemcacheService syncCache =
+		// MemcacheServiceFactory.getMemcacheService();
+		Key entKey = KeyFactory.createKey(user.getEmail(), productID);
+		try {
+			datastore.delete(entKey);
+			// syncCache.delete(productID);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		servletResponse.getWriter().println(productID + " has been deleted.");
+		servletResponse.flushBuffer();
+	}
+
 	/*
 	 * Get a certain product by ID
 	 */

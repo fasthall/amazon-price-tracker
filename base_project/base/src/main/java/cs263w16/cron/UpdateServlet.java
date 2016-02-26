@@ -18,7 +18,6 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
@@ -35,21 +34,32 @@ public class UpdateServlet extends HttpServlet {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+		syncCache.clearAll();
 		JavaCodeSnippet jcs = new JavaCodeSnippet();
 
-		Query query = new Query("WishlistProduct");
-		query.addSort(Entity.KEY_RESERVED_PROPERTY, SortDirection.ASCENDING);
+		Query query = new Query();
+		// query.addSort(Entity.KEY_RESERVED_PROPERTY, SortDirection.ASCENDING);
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withDefaults());
 		// List all entities
 		for (Entity entity : results) {
+			String email = entity.getKind();
 			String productID = entity.getKey().getName();
 			String productName = (String) entity.getProperty("productName");
-			System.out.println("Checking " + productID + ": " + productName);
+			System.out.println("Checking " + email + ": " + productID + ": "
+					+ productName);
 			// Update the price and check if the current price is lower
 			try {
-				WishlistProduct wishlistProduct = jcs.search(productID);
-				double price = wishlistProduct.getCurrentPrice();
+				Object priceObj = syncCache.get(productID);
+				double price;
+				if (priceObj == null) {
+					WishlistProduct wishlistProduct = jcs.search(productID);
+					price = wishlistProduct.getCurrentPrice();
+					System.out.println("Cache miss");
+				} else {
+					price = (double) priceObj;
+					System.out.println("Cache hit");
+				}
 				System.out.println("Last price: "
 						+ (double) entity.getProperty("currentPrice"));
 				if (price != (double) entity.getProperty("currentPrice")) {
@@ -60,13 +70,13 @@ public class UpdateServlet extends HttpServlet {
 									.getProperty("lowestPrice")) {
 						entity.setProperty("lowestPrice", price);
 						entity.setProperty("lowestDate", new Date());
-						MailService mail = new MailService(
-								"fasthall@gmail.com", productName, productID);
+						MailService mail = new MailService(email, productName,
+								productID);
 						mail.send();
 					}
 					datastore.put(entity);
-					syncCache.put(productID, entity);
 				}
+				syncCache.put(productID, price);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
