@@ -51,6 +51,15 @@
 		<servlet-name>update</servlet-name>
 		<url-pattern>/cron/update</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>flush</servlet-name>
+		<servlet-class>cs263w16.cron.FlushCache</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>flush</servlet-name>
+		<url-pattern>/cron/flush</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>Jersey REST Service</servlet-name>

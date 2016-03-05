@@ -36,6 +36,7 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
+import cs263w16.amazon.ExtractPID;
 import cs263w16.amazon.JavaCodeSnippet;
 
 @Path("/wishlist")
@@ -115,7 +116,7 @@ public class Wishlist {
 	@POST
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public void newWishlistProduct(@FormParam("productID") String productID,
+	public void newWishlistProduct(@FormParam("url") String url,
 			@Context HttpServletResponse servletResponse) throws Exception {
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
@@ -123,6 +124,8 @@ public class Wishlist {
 			System.out.println("Login first");
 			return;
 		}
+
+		String productID = ExtractPID.getProductId(url);
 
 		System.out.println("Getting current price of " + productID);
 		JavaCodeSnippet jcs = new JavaCodeSnippet();

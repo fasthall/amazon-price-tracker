@@ -22,9 +22,9 @@ import cs263w16.WishlistProduct;
  */
 public class JavaCodeSnippet {
 
-	private static final String AWS_ACCESS_KEY_ID = "";
-	private static final String AWS_SECRET_KEY = "";
-	private static final String AWS_ASSOCIATE_TAG = "";
+	private static final String AWS_ACCESS_KEY_ID = "AKIAIMWLTQ3DZCXB6YBQ";
+	private static final String AWS_SECRET_KEY = "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";
+	private static final String AWS_ASSOCIATE_TAG = "fasthall-20";
 	private static final String ENDPOINT = "webservices.amazon.com";
 
 	private SignedRequestsHelper helper;

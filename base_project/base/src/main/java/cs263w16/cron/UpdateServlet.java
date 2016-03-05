@@ -20,6 +20,9 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 
 import cs263w16.MailService;
 import cs263w16.WishlistProduct;
@@ -34,7 +37,6 @@ public class UpdateServlet extends HttpServlet {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
-		syncCache.clearAll();
 		JavaCodeSnippet jcs = new JavaCodeSnippet();
 
 		Query query = new Query();
@@ -70,9 +72,15 @@ public class UpdateServlet extends HttpServlet {
 									.getProperty("lowestPrice")) {
 						entity.setProperty("lowestPrice", price);
 						entity.setProperty("lowestDate", new Date());
-						MailService mail = new MailService(email, productName,
-								productID);
-						mail.send();
+						// MailService mail = new MailService(email,
+						// productName,
+						// productID);
+						// mail.send();
+						Queue queue = QueueFactory.getDefaultQueue();
+						queue.add(TaskOptions.Builder.withUrl("/mail")
+								.param("recipient", email)
+								.param("subject", productName)
+								.param(productID, productID));
 					}
 					datastore.put(entity);
 				}

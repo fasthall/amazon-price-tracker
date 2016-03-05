@@ -9,13 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ExtractPID {
-	String url;
 
-	public ExtractPID(String url) {
-		this.url = url;
-	}
-
-	public String getProductId() {
+	public static String getProductId(String url) {
 		String regex1 = ".*/([a-zA-z0-9]{10})/.*";
 		String regex2 = ".*/([a-zA-z0-9]{10})";
 
