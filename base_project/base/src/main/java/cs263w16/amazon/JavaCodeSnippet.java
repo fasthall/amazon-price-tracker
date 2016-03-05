@@ -22,9 +22,6 @@ import cs263w16.WishlistProduct;
  */
 public class JavaCodeSnippet {
 
-	private static final String AWS_ACCESS_KEY_ID = "AKIAIMWLTQ3DZCXB6YBQ";
-	private static final String AWS_SECRET_KEY = "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";
-	private static final String AWS_ASSOCIATE_TAG = "fasthall-20";
 	private static final String ENDPOINT = "webservices.amazon.com";
 
 	private SignedRequestsHelper helper;
@@ -34,13 +31,14 @@ public class JavaCodeSnippet {
 		params = new HashMap<String, String>();
 		params.put("Service", "AWSECommerceService");
 		params.put("Operation", "ItemLookup");
-		params.put("AWSAccessKeyId", AWS_ACCESS_KEY_ID);
-		params.put("AssociateTag", AWS_ASSOCIATE_TAG);
+		params.put("AWSAccessKeyId", AWSCrendential.AWS_ACCESS_KEY_ID);
+		params.put("AssociateTag", AWSCrendential.AWS_ASSOCIATE_TAG);
 		params.put("IdType", "ASIN");
 		params.put("ResponseGroup", "Images,ItemAttributes,Offers");
 		try {
 			helper = SignedRequestsHelper.getInstance(ENDPOINT,
-					AWS_ACCESS_KEY_ID, AWS_SECRET_KEY);
+					AWSCrendential.AWS_ACCESS_KEY_ID,
+					AWSCrendential.AWS_SECRET_KEY);
 
 		} catch (Exception e) {
 			e.printStackTrace();
