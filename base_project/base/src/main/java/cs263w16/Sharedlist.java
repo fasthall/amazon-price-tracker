@@ -5,7 +5,6 @@
 package cs263w16;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -43,12 +42,6 @@ public class Sharedlist {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	public List<SharedProduct> getEntitiesBrowser() {
-		UserService userService = UserServiceFactory.getUserService();
-		User user = userService.getCurrentUser();
-		if (user == null) {
-			return null;
-		}
-
 		List<SharedProduct> list = new ArrayList<SharedProduct>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -57,7 +50,7 @@ public class Sharedlist {
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withDefaults());
 		for (Entity entity : results) {
-			String email = user.getEmail();
+			String email = (String) entity.getProperty("email");
 			String productID = (String) entity.getProperty("productID");
 			String productName = (String) entity.getProperty("productName");
 
@@ -73,12 +66,6 @@ public class Sharedlist {
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public List<SharedProduct> getEntities() {
-		UserService userService = UserServiceFactory.getUserService();
-		User user = userService.getCurrentUser();
-		if (user == null) {
-			return null;
-		}
-
 		List<SharedProduct> list = new ArrayList<SharedProduct>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -87,7 +74,7 @@ public class Sharedlist {
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withDefaults());
 		for (Entity entity : results) {
-			String email = user.getEmail();
+			String email = (String) entity.getProperty("email");
 			String productID = (String) entity.getProperty("productID");
 			String productName = (String) entity.getProperty("productName");
 

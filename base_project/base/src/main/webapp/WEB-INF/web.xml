@@ -8,21 +8,21 @@
 	</welcome-file-list>
 
 	<servlet>
-		<servlet-name>enqueue</servlet-name>
-		<servlet-class>cs263w16.Enqueue</servlet-class>
+		<servlet-name>wishlist</servlet-name>
+		<servlet-class>cs263w16.WishlistServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>enqueue</servlet-name>
-		<url-pattern>/enqueue</url-pattern>
+		<servlet-name>wishlist</servlet-name>
+		<url-pattern>/wishlist</url-pattern>
 	</servlet-mapping>
-
+	
 	<servlet>
-		<servlet-name>worker</servlet-name>
-		<servlet-class>cs263w16.Worker</servlet-class>
+		<servlet-name>sharedlist</servlet-name>
+		<servlet-class>cs263w16.SharedlistServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>worker</servlet-name>
-		<url-pattern>/worker</url-pattern>
+		<servlet-name>sharedlist</servlet-name>
+		<url-pattern>/sharedlist</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -51,7 +51,7 @@
 		<servlet-name>update</servlet-name>
 		<url-pattern>/cron/update</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>flush</servlet-name>
 		<servlet-class>cs263w16.cron.FlushCache</servlet-class>

@@ -35,7 +35,8 @@
 			out</a>.) <b>Add a product</b>
 	<div class="container">
 		<form action="/rest/sharedlist" method="post">
-			<br> <input type="text" name="productID"> <input type="submit">
+			<br> ProductID<input type="text" name="productID"> <input
+				type="submit">
 		</form>
 
 	</div>

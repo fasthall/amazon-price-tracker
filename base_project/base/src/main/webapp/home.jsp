@@ -62,8 +62,9 @@
 	%>
 	<a href="add.html">Add</a>
 	<a href="delete.html">Delete</a>
-	<a href="rest/wishlist">Wishlist</a>
-	<a href="rest/sharedlist">Sharedlist</a>
+	<a href="wishlist">Wishlist</a>
+	<a href="share.jsp">Share</a>
+	<a href="sharedlist">Sharedlist</a>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
