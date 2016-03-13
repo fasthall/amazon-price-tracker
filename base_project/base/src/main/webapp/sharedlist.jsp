@@ -1,34 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="icon" href="styplesheet/favicon.ico">
-
-Bootstrap core CSS
-<link href="stylesheet/css/bootstrap.min.css" rel="stylesheet">
-
-Custom styles for this template
-<link href="stylesheet/signin.css" rel="stylesheet">
-
-</head>
-
-<body>
-	<b>Delete a product</b>
-	<div class="container">
-
-		<form action="/delete" method="post">
-			<br> ProductID:<input type="text" name="productID"> <input
-				type="submit">
-		</form>
-
-	</div>
-
-</body>
-</html> -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -39,14 +8,14 @@ Custom styles for this template
     <meta name="description" content="">
     <meta name="author" content="">
     
-    <title>Delete</title>
+    <title>Wishlist</title>
 
     <!-- Bootstrap core CSS -->
     <link href="stylesheet/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="stylesheet/starter-template.css" rel="stylesheet">
-    <link href="stylesheet/signin.css" rel="stylesheet">
+
    
   </head>
 
@@ -73,17 +42,9 @@ Custom styles for this template
     </nav>
 
     <div class="container">
-      
-      <form class="form-signin" action="/delete" method="post">
-		    <!-- <h2 class="form-signin-heading">ProductID</h2>
-			<br> <input type="text" name="url"> <input
-				type="submit"> -->
-			<h2>Delete a Product<h2>
-		    <h2 class="form-signin-heading">ProductID</h2>
-            <!-- <label for="productID" class="sr-only">productID</label> -->
-            <input input type="text" name="productID" class="form-control" required autofocus>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Delete</button>
-		</form>
+
+      <div class="starter-template">
+        
       </div>
 
     </div><!-- /.container -->
@@ -92,4 +53,3 @@ Custom styles for this template
 
   </body>
 </html>
-

@@ -62,9 +62,9 @@
 	%>
 	<a href="add.html">Add</a>
 	<a href="delete.html">Delete</a>
-	<a href="wishlist">Wishlist</a>
+	<a href="wishlist.jsp">Wishlist</a>
 	<a href="share.jsp">Share</a>
-	<a href="sharedlist">Sharedlist</a>
+	<a href="sharedlist.jsp">Sharedlist</a>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
@@ -75,7 +75,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Amazon Price Tracker</a>
+				<a class="navbar-brand" href="home.jsp">Amazon Price Tracker</a>
 			</div>
 
 		</div>
@@ -100,7 +100,7 @@
 				<h2>Wishlist</h2>
 				<p>Modify your wishlist</p>
 				<p>
-					<a class="btn btn-default" href="wishlist.html" role="button">Go
+					<a class="btn btn-default" href="wishlist.jsp" role="button">Go
 						to wishlist &raquo;</a>
 				</p>
 			</div>
