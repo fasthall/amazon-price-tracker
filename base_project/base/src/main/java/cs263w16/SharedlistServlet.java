@@ -6,6 +6,7 @@
 package cs263w16;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServlet;
@@ -28,18 +29,19 @@ public class SharedlistServlet extends HttpServlet {
 
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query query = new Query("sharedlist");
+		Query query = new Query("SharedList");
 		query.addSort(Entity.KEY_RESERVED_PROPERTY, SortDirection.ASCENDING);
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withDefaults());
 		for (Entity entity : results) {
 			String email = (String) entity.getProperty("email");
-			String productID = (String) entity.getProperty("productID");
+			String productID = (String) entity.getKey().getName();
 			String productName = (String) entity.getProperty("productName");
+			Date sharedDate = (Date) entity.getProperty("sharedDate");
 
 			resp.getWriter().println(
 					email + " shared <a href=\"http://www.amazon.com/dp/"
-							+ productID + "\">" + "<b>" + productID
+							+ productID + "\" target=\"_blank\">" + "<b>" + productName
 							+ "</b></a>!<br>");
 		}
 

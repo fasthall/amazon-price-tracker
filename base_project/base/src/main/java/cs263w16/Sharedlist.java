@@ -5,6 +5,7 @@
 package cs263w16;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -45,16 +46,18 @@ public class Sharedlist {
 		List<SharedProduct> list = new ArrayList<SharedProduct>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query query = new Query("sharedlist");
+		Query query = new Query("SharedList");
 		query.addSort(Entity.KEY_RESERVED_PROPERTY, SortDirection.ASCENDING);
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withDefaults());
 		for (Entity entity : results) {
 			String email = (String) entity.getProperty("email");
-			String productID = (String) entity.getProperty("productID");
+			String productID = (String) entity.getKey().getName();
 			String productName = (String) entity.getProperty("productName");
+			Date sharedDate = (Date) entity.getProperty("sharedDate");
 
-			list.add(new SharedProduct(email, productID, productName));
+			list.add(new SharedProduct(email, productID, productName,
+					sharedDate));
 		}
 
 		return list;
@@ -69,16 +72,18 @@ public class Sharedlist {
 		List<SharedProduct> list = new ArrayList<SharedProduct>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query query = new Query("sharedlist");
+		Query query = new Query("SharedList");
 		query.addSort(Entity.KEY_RESERVED_PROPERTY, SortDirection.ASCENDING);
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withDefaults());
 		for (Entity entity : results) {
 			String email = (String) entity.getProperty("email");
-			String productID = (String) entity.getProperty("productID");
+			String productID = (String) entity.getKey().getName();
 			String productName = (String) entity.getProperty("productName");
+			Date sharedDate = (Date) entity.getProperty("sharedDate");
 
-			list.add(new SharedProduct(email, productID, productName));
+			list.add(new SharedProduct(email, productID, productName,
+					sharedDate));
 		}
 
 		return list;
@@ -91,6 +96,7 @@ public class Sharedlist {
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public void newSharedProduct(@FormParam("productID") String productID,
+			@FormParam("productName") String productName,
 			@Context HttpServletResponse servletResponse) throws Exception {
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
@@ -101,9 +107,10 @@ public class Sharedlist {
 
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Entity entity = new Entity("sharedlist");
+		Entity entity = new Entity("SharedList", productID);
 		entity.setProperty("email", user.getEmail());
-		entity.setProperty("productID", productID);
+		entity.setProperty("productName", productName);
+		entity.setProperty("sharedDate", new Date());
 		datastore.put(entity);
 		servletResponse.getWriter().println(productID + " has been added.");
 		servletResponse.flushBuffer();

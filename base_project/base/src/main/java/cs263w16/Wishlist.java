@@ -215,6 +215,15 @@ public class Wishlist {
 	@Path("{productID}")
 	public WishlistProductResource getEntity(
 			@PathParam("productID") String productID) {
-		return new WishlistProductResource(uriInfo, request, productID);
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+		String email;
+		if (user == null) {
+			System.out.println("Login first");
+			email = "test@example.com";
+		} else {
+			email = user.getEmail();
+		}
+		return new WishlistProductResource(uriInfo, request, productID, email);
 	}
 }

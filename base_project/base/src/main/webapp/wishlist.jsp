@@ -40,31 +40,34 @@
 <script type="text/javascript">
 	function deletePID(pid) {
 		$.ajax({
-			url : '/rest/wishlist/',
+			url : '/rest/wishlist/' + pid,
 			type : 'DELETE',
-			data : 'productID=' + pid,
 			success : function() {
 				alert('Product has been deleted.');
 				window.location.href = "/home.jsp";
 			} || $.noop,
-			error : function() {
-				alert('Delete failed!');
+			error : function(request, status, error) {
+				alert(request.responseText);
 			} || $.noop
 		});
 	}
-	function sharePID(pid) {
+	function sharePID(pid, name) {
 		$.ajax({
 			url : '/rest/sharedlist',
 			type : 'POST',
-			data : 'productID=' + pid,
+			data : 'productID=' + pid + '&productName=' + name,
 			success : function() {
 				alert('Thank you for sharing this product.');
 				window.location.href = "/home.jsp";
 			} || $.noop,
-			error : function() {
-				alert('Share failed!');
+			error : function(request, status, error) {
+				alert(request.responseText);
 			} || $.noop
 		});
+	}
+	function test(pid, name) {
+		alert(pid);
+		alert(name);
 	}
 </script>
 
@@ -124,6 +127,8 @@
 							String productID = (String) entity.getKey().getName();
 							String productName = (String) entity
 									.getProperty("productName");
+							String escapedName = productName.replaceAll("\\'", "\\\\'")
+									.replaceAll("\"", "&quot;");
 							double currentPrice = (Double) entity
 									.getProperty("currentPrice");
 							double lowestPrice = (Double) entity
@@ -140,7 +145,8 @@
 					<td><input type="button" id="delete_button"
 						onclick="deletePID('<%=productID%>')" value="Delete"></td>
 					<td><input type="button" id="share_button"
-						onclick="sharePID('<%=productID%>')" value="Share"></td>
+						onclick="sharePID('<%=productID%>', '<%=escapedName%>')"
+						value="Share"></td>
 				</tr>
 				<%
 					}
