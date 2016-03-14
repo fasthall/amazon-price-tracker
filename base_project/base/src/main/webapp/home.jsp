@@ -98,6 +98,7 @@
       </div><!-- /.container -->
     </nav><!-- /.navbar -->
 
+        
     <div class="container">
 
       <div class="row row-offcanvas row-offcanvas-right">
@@ -109,12 +110,21 @@
           <div class="row">
             <div class="col-xs-6 col-lg-4">
               <h2>Amazon</h2>
-      
-              <p><a class="btn btn-default" href="http://www.amazon.com/" target="_blank" role="button">GO to Amazon &raquo;</a></p>
+              <p> </p>
+              <p><a class="btn btn-default" href="http://www.amazon.com/" target="_blank" role="button">Go To Amazon &raquo;</a></p>
+            </div><!--/.col-xs-6.col-lg-4-->
+            <div class="col-xs-6 col-lg-4">
+              <h2>GoogleAppEngine</h2>
+              <p></p>
+              <p><a class="btn btn-default" href="https://cloud.google.com/appengine/" target="_blank">Go To Appengine &raquo;</a></p>
             </div><!--/.col-xs-6.col-lg-4-->
           </div><!--/row-->
         </div><!--/.col-xs-12.col-sm-9-->
-
+		
+		
+		
+		
+		
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
           <div class="list-group">
             <a href="home.jsp" class="list-group-item active">Home</a>
