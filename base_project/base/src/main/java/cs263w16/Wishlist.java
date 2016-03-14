@@ -54,14 +54,17 @@ public class Wishlist {
 	public List<WishlistProduct> getEntitiesBrowser() {
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
+		String email;
 		if (user == null) {
-			return null;
+			email = "test@example.com";
+		} else {
+			email = user.getEmail();
 		}
 
 		List<WishlistProduct> list = new ArrayList<WishlistProduct>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query query = new Query(user.getEmail());
+		Query query = new Query(email);
 		query.addSort(Entity.KEY_RESERVED_PROPERTY, SortDirection.ASCENDING);
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withDefaults());
@@ -86,14 +89,17 @@ public class Wishlist {
 	public List<WishlistProduct> getEntities() {
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
+		String email;
 		if (user == null) {
-			return null;
+			email = "test@example.com";
+		} else {
+			email = user.getEmail();
 		}
 
 		List<WishlistProduct> list = new ArrayList<WishlistProduct>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query query = new Query(user.getEmail());
+		Query query = new Query(email);
 		query.addSort(Entity.KEY_RESERVED_PROPERTY, SortDirection.ASCENDING);
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withDefaults());
@@ -126,6 +132,11 @@ public class Wishlist {
 		}
 
 		String productID = ExtractPID.getProductId(url);
+		if (productID == null) {
+			servletResponse.getWriter().println("Invalid product ID");
+			servletResponse.flushBuffer();
+			return;
+		}
 
 		System.out.println("Getting current price of " + productID);
 		JavaCodeSnippet jcs = new JavaCodeSnippet();
@@ -141,8 +152,10 @@ public class Wishlist {
 		entity.setProperty("lowestDate", new Date());
 		datastore.put(entity);
 		syncCache.put(productID, product.getCurrentPrice());
-		servletResponse.getWriter().println(productID + " has been added.");
+		servletResponse.getWriter().println(
+				product.getProductName() + " has been added.");
 		servletResponse.flushBuffer();
+		return;
 	}
 
 	/*

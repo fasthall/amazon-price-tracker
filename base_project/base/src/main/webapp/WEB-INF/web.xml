@@ -13,7 +13,6 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>wishlist</servlet-name>
-		<jsp-file>wishlist.jsp</jsp-file>
 		<url-pattern>/wishlist</url-pattern>
 	</servlet-mapping>
 	
