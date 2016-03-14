@@ -1,0 +1,13 @@
+body {
+  padding-top: 50px;
+  background-color: #eee;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+.form-signin {
+  max-width: 20px;
+  padding: 15px;
+  margin-bottom: 10px;
+}

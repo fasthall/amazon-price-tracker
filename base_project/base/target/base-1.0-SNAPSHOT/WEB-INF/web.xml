@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<welcome-file-list>
+		<welcome-file>home.jsp</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
+		<servlet-name>wishlist</servlet-name>
+		<servlet-class>cs263w16.WishlistServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>wishlist</servlet-name>
+		<jsp-file>wishlist.jsp</jsp-file>
+		<url-pattern>/wishlist</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>sharedlist</servlet-name>
+		<servlet-class>cs263w16.SharedlistServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>sharedlist</servlet-name>
+		<url-pattern>/sharedlist</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>delete</servlet-name>
+		<servlet-class>cs263w16.DeleteWishlistProduct</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>delete</servlet-name>
+		<url-pattern>/delete</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>mail</servlet-name>
+		<servlet-class>cs263w16.MailServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mail</servlet-name>
+		<url-pattern>/mail</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>update</servlet-name>
+		<servlet-class>cs263w16.cron.UpdateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>update</servlet-name>
+		<url-pattern>/cron/update</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>flush</servlet-name>
+		<servlet-class>cs263w16.cron.FlushCache</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>flush</servlet-name>
+		<url-pattern>/cron/flush</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Jersey REST Service</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<!-- Register resources and providers under com.vogella.jersey.first package. -->
+		<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>cs263w16</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Jersey REST Service</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>mail</web-resource-name>
+			<url-pattern>/mail</url-pattern>
+		</web-resource-collection>
+		<web-resource-collection>
+			<web-resource-name>cron</web-resource-name>
+			<url-pattern>/cron/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+</web-app>
