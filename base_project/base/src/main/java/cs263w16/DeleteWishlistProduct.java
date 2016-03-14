@@ -35,7 +35,17 @@ public class DeleteWishlistProduct extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			response.getWriter().println(productID + " has been deleted.");
+			response.getWriter().println("<html><head>");
+			response.getWriter().println(
+					"<meta http-equiv=\"refresh\" content=\"3;url=/\" />");
+			response.getWriter().println("</head><body>");
+			response.getWriter().println(
+					"<h1>" + productID + " has been deleted.</h1><br>");
+			response.getWriter()
+					.println(
+							"<h2>Redirecting in 3 seconds...</h2> <a href=\"/\">Go back now</a>");
+			response.getWriter().println("</body></html>");
+			response.flushBuffer();
 		}
 		response.flushBuffer();
 	}
