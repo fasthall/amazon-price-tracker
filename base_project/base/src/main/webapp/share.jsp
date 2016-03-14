@@ -18,43 +18,12 @@
 
 <!-- Custom styles for this template -->
  <link href="stylesheet/starter-template.css" rel="stylesheet">
-
+ <link href="stylesheet/signin.css" rel="stylesheet">
 </head>
 
 <body>
     
-	<%
-		UserService userService = UserServiceFactory.getUserService();
-		User user = userService.getCurrentUser();
-		if (user != null) {
-			pageContext.setAttribute("user", user);
-	%>
-
-	<p>
-		Hello, ${fn:escapeXml(user.nickname)}! (You can <a
-			href="<%=userService.createLogoutURL(request.getRequestURI())%>">sign
-			out</a>.) <b>Add a product</b>
-	<div class="container">
-		<form action="/rest/sharedlist" method="post">
-			<br> ProductID<input type="text" name="productID"> <input
-				type="submit">
-		</form>
-
-	</div>
-
-
-	<%
-		} else {
-	%>
-	<p>
-		Hello! <a
-			href="<%=userService.createLoginURL(request.getRequestURI())%>">Sign
-			in</a> to the project.
-	</p>
-	<%
-		}
-	%>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -73,6 +42,42 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+	
+	<%
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+		if (user != null) {
+			pageContext.setAttribute("user", user);
+	%>
+    
+
+	<font size="4"><p>
+		Hello, ${fn:escapeXml(user.nickname)}! (You can <a
+			href="<%=userService.createLogoutURL(request.getRequestURI())%>">sign
+			out</a>.) <b>Add a product</b></font>
+	
+
+
+	<%
+		} else {
+	%>
+	<font size="4"><p>
+		Hello! <a
+			href="<%=userService.createLoginURL(request.getRequestURI())%>">Sign
+			in</a> to the project.
+	</p></font>
+	<%
+		}
+	%>
+    
+	<div class="container">
+		<form class="form-signin"action="/rest/sharedlist" method="post">
+			 <h2 class="form-signin-heading">SharedProductID</h2>
+				 <input input type="text" name="productID" class="form-control" required autofocus>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+		</form>
+
+	</div>
 </body>
 </html>
 

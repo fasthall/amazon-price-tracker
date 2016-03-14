@@ -44,27 +44,27 @@
 			pageContext.setAttribute("user", user);
 	%>
 
-	<p>
+	<font size="4"><p>
 		Hello, ${fn:escapeXml(user.nickname)}! (You can <a
 			href="<%=userService.createLogoutURL(request.getRequestURI())%>">sign
 			out</a>.)
-	</p>
+	</p></font>
 	<%
 		} else {
 	%>
-	<p>
+	<font size="4"><p>
 		Hello! <a
 			href="<%=userService.createLoginURL(request.getRequestURI())%>">Sign
 			in</a> to the project.
-	</p>
+	</p></font>
 	<%
 		}
 	%>
-	<a href="add.html">Add</a>
-	<a href="delete.html">Delete</a>
-	<a href="wishlist.jsp">Wishlist</a>
-	<a href="share.jsp">Share</a>
-	<a href="sharedlist.jsp">Sharedlist</a>
+	<font size="4"><a href="add.html">Add</a></font>
+	<font size="4"><a href="delete.html">Delete</a></font>
+	<font size="4"><a href="wishlist.jsp">Wishlist</a></font>
+	<font size="4"><a href="share.jsp">Share</a></font>
+	<font size="4"><a href="sharedlist.jsp">Sharedlist</a></font>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">

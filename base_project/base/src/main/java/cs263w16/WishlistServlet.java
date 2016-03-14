@@ -28,6 +28,7 @@ public class WishlistServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		resp.setContentType("text/html");
+
 		resp.getWriter().println("<html><body>");
 
 		UserService userService = UserServiceFactory.getUserService();
