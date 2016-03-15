@@ -18,6 +18,7 @@ public class FlushCache extends HttpServlet {
 
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 		syncCache.clearAll();
+		resp.getWriter().println("Flush memcache. " + (new Date()).toString());
 	}
 
 }

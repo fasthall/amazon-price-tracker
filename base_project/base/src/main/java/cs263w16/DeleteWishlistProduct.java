@@ -37,7 +37,7 @@ public class DeleteWishlistProduct extends HttpServlet {
 			}
 			response.getWriter().println("<html><head>");
 			response.getWriter().println(
-					"<meta http-equiv=\"refresh\" content=\"3;url=/\" />");
+					"<meta http-equiv=\"refresh\" content=\"3;url=/wishlist.jsp\" />");
 			response.getWriter().println("</head><body>");
 			response.getWriter().println(
 					"<h1>" + productID + " has been deleted.</h1><br>");

@@ -23,10 +23,10 @@ public class MailService {
 
 	public MailService(String recipient, String subject, String body) {
 		this.recipient = recipient;
-		this.subject = subject;
-		this.body = "The product " + subject
-				+ " in your wishlist is on sale!<br>"
-				+ "http://www.amazon.com/dp/" + body;
+		this.subject = subject + " is on sale!";
+		this.body = "<h1>The product " + "<a href=\"http://www.amazon.com/dp/"
+				+ body + "\">" + subject + "</a>"
+				+ " on your wishlist is on sale!</h1><br>";
 	}
 
 	public void send() {
@@ -39,13 +39,12 @@ public class MailService {
 
 		try {
 			Message msg = new MimeMessage(session);
-			msg.setFrom(new InternetAddress(
-					"cs263w16-1190@appspot.gserviceaccount.com",
+			msg.setFrom(new InternetAddress("fasthall@gmail.com",
 					"Amazon Price Tracker"));
 			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(
 					recipient));
 			msg.setSubject(subject);
-			msg.setText(body);
+			msg.setContent(body, "text/html");
 			Transport.send(msg);
 		} catch (AddressException e) {
 			e.printStackTrace();

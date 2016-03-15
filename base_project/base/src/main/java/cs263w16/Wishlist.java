@@ -153,8 +153,10 @@ public class Wishlist {
 		datastore.put(entity);
 		syncCache.put(productID, product.getCurrentPrice());
 		servletResponse.getWriter().println("<html><head>");
-		servletResponse.getWriter().println(
-				"<meta http-equiv=\"refresh\" content=\"3;url=/\" />");
+		servletResponse
+				.getWriter()
+				.println(
+						"<meta http-equiv=\"refresh\" content=\"3;url=/wishlist.jsp\" />");
 		servletResponse.getWriter().println("</head><body>");
 		servletResponse.getWriter()
 				.println(
@@ -163,7 +165,7 @@ public class Wishlist {
 		servletResponse
 				.getWriter()
 				.println(
-						"<h2>Redirecting in 3 seconds...</h2> <a href=\"/\">Go back now</a>");
+						"<h2>Redirecting in 3 seconds...</h2> <a href=\"/wishlist.jsp\">Go back now</a>");
 		servletResponse.getWriter().println("</body></html>");
 		servletResponse.flushBuffer();
 		return;
@@ -196,15 +198,17 @@ public class Wishlist {
 			e.printStackTrace();
 		}
 		servletResponse.getWriter().println("<html><head>");
-		servletResponse.getWriter().println(
-				"<meta http-equiv=\"refresh\" content=\"3;url=/\" />");
+		servletResponse
+				.getWriter()
+				.println(
+						"<meta http-equiv=\"refresh\" content=\"3;url=/wishlist.jsp\" />");
 		servletResponse.getWriter().println("</head><body>");
 		servletResponse.getWriter().println(
 				"<h1>" + productID + " has been deleted.</h1><br>");
 		servletResponse
 				.getWriter()
 				.println(
-						"<h2>Redirecting in 3 seconds...</h2> <a href=\"/\">Go back now</a>");
+						"<h2>Redirecting in 3 seconds...</h2> <a href=\"/wishlist.jsp\">Go back now</a>");
 		servletResponse.getWriter().println("</body></html>");
 		servletResponse.flushBuffer();
 	}

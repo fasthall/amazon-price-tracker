@@ -65,10 +65,6 @@
 			} || $.noop
 		});
 	}
-	function test(pid, name) {
-		alert(pid);
-		alert(name);
-	}
 </script>
 
 </head>
@@ -92,19 +88,21 @@
 					<li class="active"><a href="home.jsp">Home</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
-				
-		        <form class="navbar-form navbar-right"action="/rest/wishlist" method="post">
-                   <div class="form-group">
-                      <input input type="text" name="url" placeholder="ProductURL" class="form-control" required autofocus>
-                   </div>
-                  <button type="submit" class="btn btn-success">Add</button>
-                </form>
+
+				<form class="navbar-form navbar-right" action="/rest/wishlist"
+					method="post">
+					<div class="form-group">
+						<input input type="text" name="url" placeholder="ProductURL"
+							class="form-control" required autofocus>
+					</div>
+					<button type="submit" class="btn btn-success">Add</button>
+				</form>
 			</div>
-			
-         
+
+
 		</div>
 	</nav>
-    
+
 	<div class="container">
 		<div class="starter-template">
 			<%
@@ -112,15 +110,35 @@
 				User user = userService.getCurrentUser();
 				if (user == null) {
 			%>
-			    <div class="starter-template">
-                   <font size="6"><b>Please login first</b></font>
-                </div>
+			<div class="starter-template">
+				<font size="6"><b>Please login first</b></font>
+			</div>
 			<%
 				return;
 				} else {
+					DatastoreService datastore = DatastoreServiceFactory
+							.getDatastoreService();
+					Query query = new Query("SharedList");
+					query.addSort(Entity.KEY_RESERVED_PROPERTY,
+							SortDirection.ASCENDING);
+					List<Entity> results = datastore.prepare(query).asList(
+							FetchOptions.Builder.withDefaults());
+					String sharedString = "";
+					for (Entity entity : results) {
+						String email = (String) entity.getProperty("email");
+						String productID = (String) entity.getKey().getName();
+						String productName = (String) entity
+								.getProperty("productName");
+						Date sharedDate = (Date) entity.getProperty("sharedDate");
+						sharedString += (email
+								+ " shared <a href=\"http://www.amazon.com/dp/"
+								+ productID + "\" target=\"_blank\">" + "<b>"
+								+ productName + "</b></a>! ");
+					}
 			%>
-			
-			
+
+			<marquee direction="right" height="30" scrollamount="5"><%=sharedString%></marquee>
+
 			<table>
 				<tr>
 					<td>Product Name</td>
@@ -128,12 +146,10 @@
 					<td>Lowest Price</td>
 				</tr>
 				<%
-					DatastoreService datastore = DatastoreServiceFactory
-								.getDatastoreService();
-						Query query = new Query(user.getEmail());
+					query = new Query(user.getEmail());
 						query.addSort(Entity.KEY_RESERVED_PROPERTY,
 								SortDirection.ASCENDING);
-						List<Entity> results = datastore.prepare(query).asList(
+						results = datastore.prepare(query).asList(
 								FetchOptions.Builder.withDefaults());
 						for (Entity entity : results) {
 							String productID = (String) entity.getKey().getName();
@@ -147,7 +163,6 @@
 									.getProperty("lowestPrice");
 							Date lowestDate = (Date) entity.getProperty("lowestDate");
 				%>
-				<marquee direction="right" height="30" scrollamount="5" >跑馬燈測試</marquee>
 				<tr>
 					<td><a href="http://www.amazon.com/dp/<%=productID%>"><%=productName%></a>
 					</td>

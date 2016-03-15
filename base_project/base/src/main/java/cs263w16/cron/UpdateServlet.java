@@ -80,7 +80,10 @@ public class UpdateServlet extends HttpServlet {
 							queue.add(TaskOptions.Builder.withUrl("/mail")
 									.param("recipient", email)
 									.param("subject", productName)
-									.param(productID, productID));
+									.param("body", productID));
+							resp.getWriter().println(
+									"Notify " + email + " about " + productName
+											+ "(" + productID + ")");
 						}
 						entity.setProperty("currentPrice", price);
 						datastore.put(entity);
@@ -92,5 +95,6 @@ public class UpdateServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		resp.getWriter().flush();
 	}
 }

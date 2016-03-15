@@ -25,8 +25,6 @@ import cs263w16.WishlistProduct;
 public class JavaCodeSnippet {
 
 	private static final String ENDPOINT = "webservices.amazon.com";
-	private static final Logger log = Logger.getLogger(JavaCodeSnippet.class
-			.getName());
 
 	private SignedRequestsHelper helper;
 	private Map<String, String> params;

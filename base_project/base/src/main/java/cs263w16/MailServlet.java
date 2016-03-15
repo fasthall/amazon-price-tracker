@@ -6,12 +6,14 @@
 package cs263w16;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
 public class MailServlet extends HttpServlet {
+
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		String recipient = req.getParameter("recipient");
@@ -40,4 +42,5 @@ public class MailServlet extends HttpServlet {
 		resp.getWriter().println("Content:<br>" + body + "<br>");
 		resp.getWriter().println("</body></html>");
 	}
+
 }
