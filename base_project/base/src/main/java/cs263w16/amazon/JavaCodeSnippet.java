@@ -64,6 +64,9 @@ public class JavaCodeSnippet {
 		XMLReader xmlReader = XMLReaderFactory.createXMLReader();
 		xmlReader.setContentHandler(new XMLContentHandler(wishlistProduct));
 		xmlReader.parse(new InputSource(new URL(url).openStream()));
+		if (wishlistProduct.getCurrentPrice() == 0) {
+			return null;
+		}
 		return wishlistProduct;
 	}
 

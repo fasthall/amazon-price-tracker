@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
 public class MailServlet extends HttpServlet {
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		String recipient = req.getParameter("recipient");
 		String subject = req.getParameter("subject");
