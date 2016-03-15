@@ -147,6 +147,7 @@
 									.getProperty("lowestPrice");
 							Date lowestDate = (Date) entity.getProperty("lowestDate");
 				%>
+				<marquee direction="right" height="30" scrollamount="5" >跑馬燈測試</marquee>
 				<tr>
 					<td><a href="http://www.amazon.com/dp/<%=productID%>"><%=productName%></a>
 					</td>
