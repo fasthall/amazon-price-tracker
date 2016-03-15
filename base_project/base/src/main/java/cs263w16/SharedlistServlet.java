@@ -22,6 +22,10 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 
 @SuppressWarnings("serial")
 public class SharedlistServlet extends HttpServlet {
+
+	/*
+	 * Get all products on the shared list
+	 */
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		resp.setContentType("text/html");
@@ -41,8 +45,8 @@ public class SharedlistServlet extends HttpServlet {
 
 			resp.getWriter().println(
 					email + " shared <a href=\"http://www.amazon.com/dp/"
-							+ productID + "\" target=\"_blank\">" + "<b>" + productName
-							+ "</b></a>!<br>");
+							+ productID + "\" target=\"_blank\">" + "<b>"
+							+ productName + "</b></a>!<br>");
 		}
 
 		resp.getWriter().println("</body></html>");

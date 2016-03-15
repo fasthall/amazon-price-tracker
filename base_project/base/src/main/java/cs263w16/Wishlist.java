@@ -54,17 +54,15 @@ public class Wishlist {
 	public List<WishlistProduct> getEntitiesBrowser() {
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
-		String email;
 		if (user == null) {
-			email = "test@example.com";
-		} else {
-			email = user.getEmail();
+			System.out.println("Login first");
+			return null;
 		}
 
 		List<WishlistProduct> list = new ArrayList<WishlistProduct>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query query = new Query(email);
+		Query query = new Query(user.getEmail());
 		query.addSort(Entity.KEY_RESERVED_PROPERTY, SortDirection.ASCENDING);
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withDefaults());
@@ -82,24 +80,22 @@ public class Wishlist {
 	}
 
 	/*
-	 * List all the entities in XML
+	 * List all the entities in XML/JSON
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public List<WishlistProduct> getEntities() {
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
-		String email;
 		if (user == null) {
-			email = "test@example.com";
-		} else {
-			email = user.getEmail();
+			System.out.println("Login first");
+			return null;
 		}
 
 		List<WishlistProduct> list = new ArrayList<WishlistProduct>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query query = new Query(email);
+		Query query = new Query(user.getEmail());
 		query.addSort(Entity.KEY_RESERVED_PROPERTY, SortDirection.ASCENDING);
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withDefaults());
@@ -117,7 +113,7 @@ public class Wishlist {
 	}
 
 	/*
-	 * Post a new product with given product ID
+	 * Post a new product with given Amazon URL, it will be parsed to product ID
 	 */
 	@POST
 	@Produces(MediaType.TEXT_HTML)
@@ -152,6 +148,50 @@ public class Wishlist {
 		entity.setProperty("lowestDate", new Date());
 		datastore.put(entity);
 		syncCache.put(productID, product.getCurrentPrice());
+		servletResponse.getWriter().println("<html><head>");
+		servletResponse
+				.getWriter()
+				.println(
+						"<meta http-equiv=\"refresh\" content=\"3;url=/wishlist.jsp\" />");
+		servletResponse.getWriter().println("</head><body>");
+		servletResponse.getWriter()
+				.println(
+						"<h1>" + product.getProductName()
+								+ " has been added.</h1><br>");
+		servletResponse
+				.getWriter()
+				.println(
+						"<h2>Redirecting in 3 seconds...</h2> <a href=\"/wishlist.jsp\">Go back now</a>");
+		servletResponse.getWriter().println("</body></html>");
+		servletResponse.flushBuffer();
+		return;
+	}
+
+	/*
+	 * Post a new product with given JSON strgin
+	 */
+	@POST
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void newWishlistProductJson(WishlistProduct product,
+			@Context HttpServletResponse servletResponse) throws Exception {
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+		if (user == null) {
+			System.out.println("Login first");
+			return;
+		}
+
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+		Entity entity = new Entity(user.getEmail(), product.getProductID());
+		entity.setProperty("productName", product.getProductName());
+		entity.setProperty("currentPrice", product.getCurrentPrice());
+		entity.setProperty("lowestPrice", product.getLowestPrice());
+		entity.setProperty("lowestDate", new Date());
+		datastore.put(entity);
+		syncCache.put(product.getProductID(), product.getCurrentPrice());
 		servletResponse.getWriter().println("<html><head>");
 		servletResponse
 				.getWriter()
@@ -221,13 +261,10 @@ public class Wishlist {
 			@PathParam("productID") String productID) {
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
-		String email;
 		if (user == null) {
 			System.out.println("Login first");
-			email = "test@example.com";
-		} else {
-			email = user.getEmail();
+			return null;
 		}
-		return new WishlistProductResource(uriInfo, request, productID, email);
+		return new WishlistProductResource(uriInfo, request, productID, user.getEmail());
 	}
 }

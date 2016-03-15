@@ -25,6 +25,10 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 @SuppressWarnings("serial")
 public class WishlistServlet extends HttpServlet {
+
+	/*
+	 * List all the products on the wishlist. Not used now.
+	 */
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		resp.setContentType("text/html");
@@ -46,8 +50,9 @@ public class WishlistServlet extends HttpServlet {
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withDefaults());
 		resp.getWriter().println("<table border=\"0\">");
-		resp.getWriter().println(
-				"<tr><b><td>Product name</td><td>Current price</td><td>History lowest</td></b></tr>");
+		resp.getWriter()
+				.println(
+						"<tr><b><td>Product name</td><td>Current price</td><td>History lowest</td></b></tr>");
 		int i = 0;
 		for (Entity entity : results) {
 			String productID = (String) entity.getKey().getName();
@@ -77,7 +82,7 @@ public class WishlistServlet extends HttpServlet {
 			resp.getWriter().println("</tr>");
 		}
 		resp.getWriter().println("</table>");
-
 		resp.getWriter().println("</body></html>");
 	}
+
 }

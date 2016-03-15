@@ -21,12 +21,18 @@ public class MailService {
 	private String subject;
 	private String body;
 
-	public MailService(String recipient, String subject, String body) {
+	public MailService(String recipient, String productName, String productID,
+			String price) {
 		this.recipient = recipient;
-		this.subject = subject + " is on sale!";
-		this.body = "<h1>The product " + "<a href=\"http://www.amazon.com/dp/"
-				+ body + "\">" + subject + "</a>"
-				+ " on your wishlist is on sale!</h1><br>";
+		this.subject = productName + " is on sale!";
+		this.body = "<h1>The product "
+				+ "<a href=\"http://www.amazon.com/dp/"
+				+ productID
+				+ "\">"
+				+ productName
+				+ "</a>"
+				+ " on your wishlist is on sale!</h1><br><h2>The current price is $"
+				+ price + "</h2>";
 	}
 
 	public void send() {
@@ -38,7 +44,10 @@ public class MailService {
 		Session session = Session.getDefaultInstance(props, null);
 
 		try {
+			// send the mail
 			Message msg = new MimeMessage(session);
+			// gae service sender mail address is temporarily broken
+			// use developer's address instead
 			msg.setFrom(new InternetAddress("fasthall@gmail.com",
 					"Amazon Price Tracker"));
 			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(

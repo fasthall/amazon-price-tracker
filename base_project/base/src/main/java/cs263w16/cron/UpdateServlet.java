@@ -24,7 +24,6 @@ import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 
-import cs263w16.MailService;
 import cs263w16.WishlistProduct;
 import cs263w16.amazon.JavaCodeSnippet;
 
@@ -78,9 +77,10 @@ public class UpdateServlet extends HttpServlet {
 							entity.setProperty("lowestDate", new Date());
 							Queue queue = QueueFactory.getDefaultQueue();
 							queue.add(TaskOptions.Builder.withUrl("/mail")
-									.param("recipient", email)
-									.param("subject", productName)
-									.param("body", productID));
+									.param("email", email)
+									.param("productName", productName)
+									.param("productID", productID)
+									.param("price", price + ""));
 							resp.getWriter().println(
 									"Notify " + email + " about " + productName
 											+ "(" + productID + ")");

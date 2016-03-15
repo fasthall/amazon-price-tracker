@@ -1,3 +1,6 @@
+/*
+ * XML parser
+ */
 package cs263w16.amazon;
 
 import org.xml.sax.Attributes;

@@ -19,25 +19,25 @@ public class DeleteWishlistProduct extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String productID = request.getParameter("productID");
 
+		// Check if login
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
 		if (user == null) {
 			response.getWriter().println("Login first.");
 		} else {
+			// delete the entry
 			DatastoreService datastore = DatastoreServiceFactory
 					.getDatastoreService();
-			// MemcacheService syncCache =
-			// MemcacheServiceFactory.getMemcacheService();
 			Key entKey = KeyFactory.createKey(user.getEmail(), productID);
 			try {
 				datastore.delete(entKey);
-				// syncCache.delete(productID);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			response.getWriter().println("<html><head>");
-			response.getWriter().println(
-					"<meta http-equiv=\"refresh\" content=\"3;url=/wishlist.jsp\" />");
+			response.getWriter()
+					.println(
+							"<meta http-equiv=\"refresh\" content=\"3;url=/wishlist.jsp\" />");
 			response.getWriter().println("</head><body>");
 			response.getWriter().println(
 					"<h1>" + productID + " has been deleted.</h1><br>");

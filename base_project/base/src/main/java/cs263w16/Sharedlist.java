@@ -64,7 +64,7 @@ public class Sharedlist {
 	}
 
 	/*
-	 * List all the entities in XML
+	 * List all the entities in XML/JSON
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -112,7 +112,34 @@ public class Sharedlist {
 		entity.setProperty("productName", productName);
 		entity.setProperty("sharedDate", new Date());
 		datastore.put(entity);
-		servletResponse.getWriter().println(productID + " has been added.");
+		servletResponse.getWriter().println(productName + " has been added.");
+		servletResponse.flushBuffer();
+	}
+
+	/*
+	 * Post a new product with given JSON string
+	 */
+	@POST
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void newSharedProduct(SharedProduct product,
+			@Context HttpServletResponse servletResponse) throws Exception {
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+		if (user == null) {
+			System.out.println("Login first");
+			return;
+		}
+
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Entity entity = new Entity("SharedList", product.getProductID());
+		entity.setProperty("email", user.getEmail());
+		entity.setProperty("productName", product.getProductName());
+		entity.setProperty("sharedDate", product.getSharedDate());
+		datastore.put(entity);
+		servletResponse.getWriter().println(
+				product.getProductName() + " has been added.");
 		servletResponse.flushBuffer();
 	}
 

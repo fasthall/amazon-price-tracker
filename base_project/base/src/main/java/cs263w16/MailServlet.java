@@ -16,30 +16,34 @@ public class MailServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		String recipient = req.getParameter("recipient");
-		String subject = req.getParameter("subject");
-		String body = req.getParameter("body");
-		if (recipient == null) {
+		// parse the parameters
+		String email = req.getParameter("email");
+		String productName = req.getParameter("productName");
+		String productID = req.getParameter("productID");
+		String price = req.getParameter("price");
+		if (email == null) {
 			resp.getWriter().println("No recipient.");
 			System.out.println("No recipient.");
 			return;
 		}
-		if (subject == null) {
-			subject = "No subject";
+		if (productName == null) {
+			productName = "No subject";
 		}
-		if (body == null) {
-			body = "No content";
+		if (productID == null) {
+			productID = "No content";
 		}
 
 		resp.setContentType("text/html");
 		resp.getWriter().println("<html><body>");
 
-		MailService mailService = new MailService(recipient, subject, body);
+		// Invoke mail sending service
+		MailService mailService = new MailService(email, productName,
+				productID, price);
 		mailService.send();
 
-		resp.getWriter().println("Sent a mail to: " + recipient + "<br>");
-		resp.getWriter().println("Subject: " + subject + "<br>");
-		resp.getWriter().println("Content:<br>" + body + "<br>");
+		resp.getWriter().println("Sent a mail to: " + email + "<br>");
+		resp.getWriter().println("Subject: " + productName + "<br>");
+		resp.getWriter().println("Content:<br>" + productID + "<br>");
 		resp.getWriter().println("</body></html>");
 	}
 

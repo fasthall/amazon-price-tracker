@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
@@ -15,13 +14,6 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
 import cs263w16.WishlistProduct;
 
-/*
- * This class shows how to make a simple authenticated call to the
- * Amazon Product Advertising API.
- *
- * See the README.html that came with this sample for instructions on
- * configuring and running the sample.
- */
 public class JavaCodeSnippet {
 
 	private static final String ENDPOINT = "webservices.amazon.com";
