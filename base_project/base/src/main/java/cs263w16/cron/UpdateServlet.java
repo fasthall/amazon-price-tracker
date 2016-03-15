@@ -18,6 +18,8 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.taskqueue.Queue;
@@ -45,6 +47,9 @@ public class UpdateServlet extends HttpServlet {
 				FetchOptions.Builder.withDefaults());
 		// List all entities
 		for (Entity entity : results) {
+			if (entity.getKind().equals("SharedList")) {
+				continue;
+			}
 			String email = entity.getKind();
 			String productID = entity.getKey().getName();
 			String productName = (String) entity.getProperty("productName");
@@ -65,23 +70,22 @@ public class UpdateServlet extends HttpServlet {
 				System.out.println("Last price: "
 						+ (double) entity.getProperty("currentPrice"));
 				if (price != (double) entity.getProperty("currentPrice")) {
-					entity.setProperty("currentPrice", price);
 					System.out.println("Current price: " + price);
 					if (price > 0
 							&& price < (double) entity
-									.getProperty("lowestPrice")) {
+									.getProperty("currentPrice")) {
 						entity.setProperty("lowestPrice", price);
 						entity.setProperty("lowestDate", new Date());
-						// MailService mail = new MailService(email,
-						// productName,
-						// productID);
-						// mail.send();
+						MailService mail = new MailService(email, productName,
+								productID);
+						mail.send();
 						Queue queue = QueueFactory.getDefaultQueue();
 						queue.add(TaskOptions.Builder.withUrl("/mail")
 								.param("recipient", email)
 								.param("subject", productName)
 								.param(productID, productID));
 					}
+					entity.setProperty("currentPrice", price);
 					datastore.put(entity);
 				}
 				syncCache.put(productID, price);

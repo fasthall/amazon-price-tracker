@@ -1,8 +1,10 @@
 package cs263w16.amazon;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
@@ -23,6 +25,8 @@ import cs263w16.WishlistProduct;
 public class JavaCodeSnippet {
 
 	private static final String ENDPOINT = "webservices.amazon.com";
+	private static final Logger log = Logger.getLogger(JavaCodeSnippet.class
+			.getName());
 
 	private SignedRequestsHelper helper;
 	private Map<String, String> params;
@@ -46,6 +50,12 @@ public class JavaCodeSnippet {
 	}
 
 	public WishlistProduct search(String productID) throws Exception {
+		// TODO test
+		if (productID.equals("XXXXXXXXXX")) {
+			return new WishlistProduct("XXXXXXXXXX", "Test product",
+					(1458500000000l - System.currentTimeMillis()) / 1000, 500,
+					new Date());
+		}
 		params.put("ItemId", productID);
 		String url = helper.sign(params);
 		System.out.println(url);
@@ -54,7 +64,6 @@ public class JavaCodeSnippet {
 		XMLReader xmlReader = XMLReaderFactory.createXMLReader();
 		xmlReader.setContentHandler(new XMLContentHandler(wishlistProduct));
 		xmlReader.parse(new InputSource(new URL(url).openStream()));
-
 		return wishlistProduct;
 	}
 

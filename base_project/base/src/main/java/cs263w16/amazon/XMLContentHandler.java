@@ -34,12 +34,12 @@ public class XMLContentHandler implements ContentHandler {
 
 	public void startElement(String uri, String localName, String qName,
 			Attributes atts) throws SAXException {
-		if (currentTag.equals("LowestNewPrice")) {
+		if (currentTag.equals("ListPrice")) {
 			if (qName.equals("FormattedPrice")) {
 				currentTag = "FormattedPrice";
 			}
-		} else if (qName.equals("LowestNewPrice")) {
-			currentTag = "LowestNewPrice";
+		} else if (qName.equals("ListPrice")) {
+			currentTag = "ListPrice";
 		} else if (qName.equals("Title")) {
 			currentTag = "Title";
 		} else {
