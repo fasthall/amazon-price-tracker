@@ -38,8 +38,14 @@ public class XMLContentHandler implements ContentHandler {
 			if (qName.equals("FormattedPrice")) {
 				currentTag = "FormattedPrice";
 			}
+		} else if (currentTag.equals("LowestNewPrice")) {
+			if (qName.equals("FormattedPrice")) {
+				currentTag = "FormattedPrice";
+			}
 		} else if (qName.equals("ListPrice")) {
 			currentTag = "ListPrice";
+		} else if (qName.equals("LowestNewPrice")) {
+			currentTag = "LowestNewPrice";
 		} else if (qName.equals("Title")) {
 			currentTag = "Title";
 		} else {
