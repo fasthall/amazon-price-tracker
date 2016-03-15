@@ -28,7 +28,7 @@ Send GET to /rest/wishlist to get the wishlist of the user.
 
 ```
 curl -XGET -H "Accept:application/json" http://localhost:8080/rest/wishlist \
-  -b "dev_appserver_login="test@example.com:false:185804764220139124118"; Path=/;"
+  -b "dev_appserver_login="test@example.com:false:18580..."; Path=/;"
 ```
 
 To POST a new product, the product JSON object needs the following field:
@@ -42,7 +42,7 @@ To POST a new product, the product JSON object needs the following field:
 curl -XPOST -H "Content-Type:application/json" \
   -d '{"productID":"XXXXXXXXXX", "productName":"Test product", "currentPrice":999.0, "lowestPrice":999.0, "lowestDate":1457993425165}' \
   http://localhost:8080/rest/wishlist \
-  -b "dev_appserver_login="test@example.com:false:185804764220139124118"; Path=/;"
+  -b "dev_appserver_login="test@example.com:false:18580..."; Path=/;"
 ```
 
 ## Sharedlist
@@ -50,7 +50,8 @@ curl -XPOST -H "Content-Type:application/json" \
 Send GET to /rest/sharedlist to get the list of the shared products.
 
 ```
-curl -XGET -H "Accept:application/json" http://localhost:8080/rest/sharedlist  -b "dev_appserver_login="test@example.com:false:185804764220139124118"; Path=/;"
+curl -XGET -H "Accept:application/json" http://localhost:8080/rest/sharedlist \
+  -b "dev_appserver_login="test@example.com:false:18580..."; Path=/;"
 ```
 
 To POST a new shared product, the product JSON object needs the following field:
@@ -63,7 +64,7 @@ The field `email` will be filled with the current user automatically.
 curl -XPOST -H "Content-Type:application/json" \
   -d '{"productID":"XXXXXXXXXX", "productName":"Test product", "sharedDate":1457993425165}' \
   http://localhost:8080/rest/sharedlist \
-  -b "dev_appserver_login="test@example.com:false:185804764220139124118"; Path=/;"
+  -b "dev_appserver_login="test@example.com:false:18580..."; Path=/;"
 ```
 
 ## Other internal servlets
