@@ -92,11 +92,19 @@
 					<li class="active"><a href="home.jsp">Home</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
+				
+		        <form class="navbar-form navbar-right"action="/rest/wishlist" method="post">
+                   <div class="form-group">
+                      <input input type="text" name="url" placeholder="ProductURL" class="form-control" required autofocus>
+                   </div>
+                  <button type="submit" class="btn btn-success">Add</button>
+                </form>
 			</div>
-			<!--/.nav-collapse -->
+			
+         
 		</div>
 	</nav>
-
+    
 	<div class="container">
 		<div class="starter-template">
 			<%
@@ -104,11 +112,15 @@
 				User user = userService.getCurrentUser();
 				if (user == null) {
 			%>
-			<h2>Please login first</h2>
+			    <div class="starter-template">
+                   <font size="6"><b>Please login first</b></font>
+                </div>
 			<%
 				return;
 				} else {
 			%>
+			
+			
 			<table>
 				<tr>
 					<td>Product Name</td>
@@ -135,6 +147,7 @@
 									.getProperty("lowestPrice");
 							Date lowestDate = (Date) entity.getProperty("lowestDate");
 				%>
+				<marquee direction="right" height="30" scrollamount="5" >跑馬燈測試</marquee>
 				<tr>
 					<td><a href="http://www.amazon.com/dp/<%=productID%>"><%=productName%></a>
 					</td>

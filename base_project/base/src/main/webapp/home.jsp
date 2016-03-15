@@ -148,12 +148,8 @@
 
 					<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
 						<div class="list-group">
-							<a href="home.jsp" class="list-group-item active">Home</a> <font
-								size="4"><a href="add.html" class="list-group-item">Add
-									Product</a></font> <font size="4"><a href="delete.html"
-								class="list-group-item">Delete Product</a></font> <font size="4"><a
-								href="wishlist.jsp" class="list-group-item">Wishlist</a></font> <font
-								size="4"><a href="share.jsp" class="list-group-item">Share</a></font>
+							<a href="home.jsp" class="list-group-item active">Home</a> <font size="4"><a
+								href="wishlist.jsp" class="list-group-item">Wishlist</a></font> 
 							<font size="4"><a href="sharedlist.jsp"
 								class="list-group-item">Sharedlist</a></font>
 						</div>
