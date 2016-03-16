@@ -45,6 +45,13 @@ curl -XPOST -H "Content-Type:application/json" \
   -b "dev_appserver_login="test@example.com:false:18580..."; Path=/;"
 ```
 
+To DELETE a product, send DELETE request to /rest/wishlist/${product_id}.
+
+```
+curl -XDELETE http://localhost:8080/rest/wishlist/XXXXXXXXXX \
+  -b "dev_appserver_login="test@example.com:false:18580..."; Path=/;"
+```
+
 ## Sharedlist
 
 Send GET to /rest/sharedlist to get the list of the shared products.
